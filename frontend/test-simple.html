@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron 测试页面</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>一本电子书库 - Electron 测试</h1>
+        
+        <div class="success">
+            ✅ Electron 应用启动成功！
+        </div>
+        
+        <div class="info">
+            <h3>环境信息</h3>
+            <p><strong>平台:</strong> <span id="platform">检测中...</span></p>
+            <p><strong>Electron:</strong> <span id="electron-version">检测中...</span></p>
+            <p><strong>Node.js:</strong> <span id="node-version">检测中...</span></p>
+            <p><strong>Chrome:</strong> <span id="chrome-version">检测中...</span></p>
+        </div>
+        
+        <div class="info">
+            <h3>功能测试</h3>
+            <button onclick="testElectronAPI()">测试 Electron API</button>
+            <button onclick="testAppVersion()">获取应用版本</button>
+            <button onclick="testMessageBox()">测试消息框</button>
+            <button onclick="clearResult()">清空结果</button>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // 显示环境信息
+        document.getElementById('platform').textContent = window.electronAPI?.platform || 'Web环境';
+        document.getElementById('electron-version').textContent = process?.versions?.electron || '未知';
+        document.getElementById('node-version').textContent = process?.versions?.node || '未知';
+        document.getElementById('chrome-version').textContent = process?.versions?.chrome || '未知';
+        
+        function log(message) {
+            const result = document.getElementById('result');
+            const time = new Date().toLocaleTimeString();
+            result.innerHTML += `<div>[${time}] ${message}</div>`;
+            result.scrollTop = result.scrollHeight;
+        }
+        
+        function clearResult() {
+            document.getElementById('result').innerHTML = '';
+        }
+        
+        async function testElectronAPI() {
+            if (window.electronAPI) {
+                log('✅ Electron API 可用');
+                log(`📱 平台: ${window.electronAPI.platform}`);
+                log(`🔧 是否为 Electron: ${window.electronAPI.isElectron}`);
+            } else {
+                log('❌ Electron API 不可用');
+            }
+        }
+        
+        async function testAppVersion() {
+            try {
+                if (window.electronAPI?.getAppVersion) {
+                    const version = await window.electronAPI.getAppVersion();
+                    log(`📦 应用版本: ${version}`);
+                } else {
+                    log('❌ getAppVersion API 不可用');
+                }
+            } catch (error) {
+                log(`❌ 获取版本失败: ${error.message}`);
+            }
+        }
+        
+        async function testMessageBox() {
+            try {
+                if (window.electronAPI?.showMessageBox) {
+                    const result = await window.electronAPI.showMessageBox({
+                        type: 'info',
+                        title: '测试消息',
+                        message: '这是一个测试消息框',
+                        detail: 'Electron API 工作正常！',
+                        buttons: ['确定', '取消']
+                    });
+                    log(`💬 消息框结果: 点击了 "${result.response === 0 ? '确定' : '取消'}"`);
+                } else {
+                    log('❌ showMessageBox API 不可用');
+                }
+            } catch (error) {
+                log(`❌ 显示消息框失败: ${error.message}`);
+            }
+        }
+        
+        // 初始化日志
+        log('🚀 测试页面加载完成');
+        if (window.electronAPI?.isElectron) {
+            log('✅ 运行在 Electron 环境中');
+        } else {
+            log('⚠️ 运行在浏览器环境中');
+        }
+    </script>
+</body>
+</html>
