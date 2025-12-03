@@ -1,0 +1,13 @@
+# Maven build output
+target/
+
+# IDE
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Uploads (可选的，根据需求决定是否忽略)
+uploads/
+
