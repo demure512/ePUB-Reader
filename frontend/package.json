@@ -37,7 +37,7 @@
   },
   "build": {
     "appId": "com.ebook.library",
-    "productName": "一本电子书库",
+    "productName": "简阅电子书库",
     "directories": {
       "output": "dist-electron"
     },

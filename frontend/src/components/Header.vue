@@ -3,7 +3,7 @@
     <div class="container">
       <div class="flex-between">
         <div class="flex gap-20">
-          <router-link to="/" class="logo">一本</router-link>
+          <router-link to="/" class="logo">简阅</router-link>
           <nav class="nav">
             <router-link to="/library" class="nav-link">书库</router-link>
             <router-link to="/upload" class="nav-link">上传</router-link>

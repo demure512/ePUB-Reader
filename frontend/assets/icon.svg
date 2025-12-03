@@ -20,5 +20,5 @@
   <line x1="70" y1="56" x2="98" y2="56" stroke="#7f8c8d" stroke-width="1.5"/>
   
   <!-- 中文"一本"字样 -->
-  <text x="64" y="85" font-family="serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#2c3e50">一本</text>
+  <text x="64" y="85" font-family="serif" font-size="16" font-weight="bold" text-anchor="middle" fill="#2c3e50">简阅</text>
 </svg>

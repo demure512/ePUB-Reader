@@ -2,7 +2,7 @@
   <div class="login-page">
     <div class="login-container">
       <div class="login-card card">
-        <h1 class="login-title">一本</h1>
+        <h1 class="login-title">简阅</h1>
         <p class="login-subtitle">极简电子书库</p>
         
         <form @submit.prevent="handleLogin" class="login-form">

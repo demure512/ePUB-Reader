@@ -1,4 +1,4 @@
-# 一本电子书库 - Electron 桌面应用
+# 简阅电子书库 - Electron 桌面应用
 
 这是一个基于 Electron 的桌面电子书阅读应用，支持 EPUB 和 TXT 格式的电子书。
 

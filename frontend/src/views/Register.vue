@@ -2,7 +2,7 @@
   <div class="register-page">
     <div class="register-container">
       <div class="register-card card">
-        <h1 class="register-title">加入一本</h1>
+        <h1 class="register-title">加入简阅</h1>
         <p class="register-subtitle">开始你的阅读之旅</p>
         
         <form @submit.prevent="handleRegister" class="register-form">

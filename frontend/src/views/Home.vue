@@ -2,7 +2,7 @@
   <div class="home-page">
     <div class="container">
       <div class="hero-section">
-        <h1 class="hero-title">一本</h1>
+        <h1 class="hero-title">简阅</h1>
         <p class="hero-subtitle">极简电子书库，专注阅读本身</p>
         <div class="hero-actions">
           <router-link to="/library" class="btn btn-primary">我的书库</router-link>

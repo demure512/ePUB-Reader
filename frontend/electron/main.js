@@ -181,12 +181,12 @@ function createMenu() {
       label: '帮助',
       submenu: [
         {
-          label: '关于一本电子书库',
+          label: '关于简阅电子书库',
           click: () => {
             dialog.showMessageBox(mainWindow, {
               type: 'info',
               title: '关于',
-              message: '一本电子书库',
+              message: '简阅电子书库',
               detail: '极简电子书库，专注阅读本身\n版本: 1.0.0\n\n基于 Electron 和 Vue 3 构建'
             });
           }
