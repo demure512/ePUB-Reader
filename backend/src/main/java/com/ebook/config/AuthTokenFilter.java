@@ -35,13 +35,18 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return;
         }
         
-        // 跳过认证路径
         String path = request.getRequestURI();
-        if (path.startsWith("/api/auth/") || path.startsWith("/api/test/") || path.startsWith("/api/debug/")) {
+        boolean isPublicPath = path.startsWith("/api/auth/") || path.startsWith("/api/test/");
+        boolean isDebugPath = path.startsWith("/api/debug/");
+        
+        // 对于公开路径（认证和测试），完全跳过token处理
+        if (isPublicPath) {
             filterChain.doFilter(request, response);
             return;
         }
         
+        // 对于debug路径，尝试解析token（如果存在），但不强制要求认证
+        // 对于其他路径，必须解析token并设置认证
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -55,7 +60,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e);
+            // 对于debug路径，即使token解析失败也不抛出异常（允许未认证访问）
+            // 对于其他路径，异常会被记录，但不会阻止请求继续（由Spring Security处理）
+            if (!isDebugPath) {
+                logger.error("Cannot set user authentication: {}", e);
+            }
         }
         
         filterChain.doFilter(request, response);
