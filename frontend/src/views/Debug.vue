@@ -84,8 +84,8 @@ const registerForm = ref({
 })
 
 const loginForm = ref({
-  username: 'test',
-  password: 'password'
+  username: 'test01',
+  password: '123123'
 })
 
 const selectedFile = ref(null)
