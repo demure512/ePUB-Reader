@@ -11,6 +11,15 @@ import java.util.Map;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class TestController {
     
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, Object>> health() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "UP");
+        response.put("message", "Backend service is running");
+        response.put("timestamp", System.currentTimeMillis());
+        return ResponseEntity.ok(response);
+    }
+    
     @GetMapping("/hello")
     public ResponseEntity<Map<String, String>> hello() {
         Map<String, String> response = new HashMap<>();
