@@ -64,10 +64,12 @@ onBeforeUnmount(() => {
 <style>
 .main-content {
   flex: 1;
+  padding-top: 65px; /* Header 高度补偿 */
 }
 
 .reader-layout {
   padding: 0 !important;
+  padding-top: 0 !important;
   margin: 0 !important;
   max-width: 100% !important;
 }

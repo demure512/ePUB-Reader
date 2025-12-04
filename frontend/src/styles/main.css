@@ -96,13 +96,19 @@ body {
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   border-bottom: 1px solid var(--border-color);
   padding: 15px 0;
   background: var(--background-color);
+  z-index: 100;
 }
 
 .main-content {
   flex: 1;
+  padding-top: 65px; /* Header 高度补偿 */
 }
 
 .book-grid {
