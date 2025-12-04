@@ -86,15 +86,22 @@
           </div>
         </form>
         
-        <div v-if="uploadProgress > 0" class="upload-progress">
+        <div v-if="error" class="error-message">{{ error }}</div>
+        <div v-if="success" class="success-message">{{ success }}</div>
+      </div>
+    </div>
+    
+    <!-- 正中央的加载遮罩层 -->
+    <div v-if="uploading" class="upload-overlay">
+      <div class="upload-modal">
+        <div class="loading-spinner"></div>
+        <div class="upload-progress">
           <div class="progress-bar">
             <div class="progress-fill" :style="{ width: uploadProgress + '%' }"></div>
           </div>
-          <p>{{ authStore.isGuest ? '处理进度' : '上传进度' }}: {{ uploadProgress }}%</p>
+          <p class="progress-text">{{ authStore.isGuest ? '处理进度' : '上传进度' }}: {{ uploadProgress }}%</p>
+          <p class="progress-hint">{{ authStore.isGuest ? '正在添加书籍到本地...' : '正在上传书籍到服务器...' }}</p>
         </div>
-        
-        <div v-if="error" class="error-message">{{ error }}</div>
-        <div v-if="success" class="success-message">{{ success }}</div>
       </div>
     </div>
   </div>
@@ -569,24 +576,94 @@ onMounted(async () => {
   min-width: 120px;
 }
 
-.upload-progress {
-  margin-top: 20px;
+/* 全屏遮罩层 */
+.upload-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+/* 居中的上传模态框 */
+.upload-modal {
+  background: var(--background-color);
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  min-width: 400px;
+  max-width: 90%;
   text-align: center;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 旋转的加载动画 */
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 30px;
+  border: 4px solid var(--surface-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.upload-progress {
+  width: 100%;
 }
 
 .progress-bar {
   width: 100%;
-  height: 8px;
+  height: 10px;
   background: var(--surface-color);
-  border-radius: 4px;
+  border-radius: 5px;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .progress-fill {
   height: 100%;
-  background: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color), #4a90e2);
   transition: width 0.3s ease;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(74, 144, 226, 0.3);
+}
+
+.progress-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.progress-hint {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .error-message {
@@ -620,6 +697,25 @@ onMounted(async () => {
   
   .form-actions {
     flex-direction: column;
+  }
+  
+  .upload-modal {
+    min-width: 320px;
+    padding: 30px 20px;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+  }
+  
+  .progress-text {
+    font-size: 18px;
+  }
+  
+  .progress-hint {
+    font-size: 13px;
   }
 }
 </style>
