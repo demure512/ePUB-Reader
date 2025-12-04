@@ -31,6 +31,10 @@
         <ReaderContainer
           ref="readerContainerRef"
           :font-size="fontSize"
+          :line-height="lineHeight"
+          :page-width="pageWidth"
+          :font-family="fontFamily"
+          :reading-mode="readingMode"
           @update:toc="onTocUpdate"
           @update:location="onLocationUpdate"
           @update:book="book = $event"
@@ -42,6 +46,7 @@
           @prev="readerContainerRef?.prev()"
           @next="readerContainerRef?.next()"
         />
+        <ReaderSettings />
       </div>
     </template>
   </div>
@@ -56,6 +61,7 @@ import Sidebar from './Sidebar.vue';
 import ReaderContainer from './ReaderContainer.vue';
 import ReaderHeader from './ReaderHeader.vue';
 import ReaderControls from './ReaderControls.vue';
+import ReaderSettings from './ReaderSettings.vue';
 
 const tableOfContents = ref([]);
 const readerContainerRef = ref(null);
@@ -76,8 +82,12 @@ const isSidebarCollapsed = ref(false); // 侧边栏收起状态
 let progressSaveTimer = null;
 let lastSavedProgress = { percentage: 0, location: null };
 
-// 使用settingsStore中的fontSize
+// 使用settingsStore中的阅读设置
 const fontSize = computed(() => settingsStore.fontSize);
+const lineHeight = computed(() => settingsStore.lineHeight);
+const pageWidth = computed(() => settingsStore.pageWidth);
+const fontFamily = computed(() => settingsStore.fontFamily);
+const readingMode = computed(() => settingsStore.readingMode);
 
 // 全局错误处理
 const handleGlobalError = (error) => {
@@ -198,7 +208,15 @@ const scheduleProgressSave = () => {
   progressSaveTimer = setTimeout(async () => {
     if (percentage > 0 || lastLocation) {
       console.log(`自动保存进度: ${percentage.toFixed(1)}%`);
-      const result = await bookStore.saveProgress(book.value.id, percentage, lastLocation);
+      const result = await bookStore.saveProgress(
+        book.value.id, 
+        percentage, 
+        lastLocation,
+        chapterLabel.value, // 当前章节
+        null, // scrollPosition (EPUB不使用滚动位置)
+        currentLocation.value, // currentPage (当前位置)
+        totalLocations.value // totalPages (总位置数)
+      );
       if (result.success) {
         lastSavedProgress = { percentage, location: lastLocation };
       }
@@ -224,7 +242,15 @@ onBeforeUnmount(() => {
 
   if (progressChanged && (percentage > 0 || lastLocation)) {
     console.log(`组件卸载时保存进度: ${percentage.toFixed(1)}%`);
-    bookStore.saveProgress(book.value.id, percentage, lastLocation);
+    bookStore.saveProgress(
+      book.value.id, 
+      percentage, 
+      lastLocation,
+      chapterLabel.value,
+      null,
+      currentLocation.value,
+      totalLocations.value
+    );
   }
 });
 

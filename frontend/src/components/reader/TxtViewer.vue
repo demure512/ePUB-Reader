@@ -1,17 +1,24 @@
 <template>
-  <div class="txt-viewer" ref="viewerRef">
-    <pre :style="{ fontSize: `${fontSize}px`, lineHeight: 1.8 }">{{ currentPageContent }}</pre>
+  <div class="txt-viewer" ref="viewerRef" :style="containerStyle">
+    <pre :style="contentStyle">{{ currentPageContent }}</pre>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch, computed, nextTick } from 'vue';
+import { useSettingsStore } from '@/stores/settings';
 
 const props = defineProps({
   bookData: ArrayBuffer,
   fontSize: Number,
+  lineHeight: Number,
+  pageWidth: Number,
+  fontFamily: String,
+  readingMode: String,
   initialLocation: String,
 });
+
+const settingsStore = useSettingsStore();
 
 const emit = defineEmits(['update:location', 'update:toc', 'initialization-error']);
 
@@ -31,6 +38,27 @@ const isPaginating = ref(false);
 // --- Computed ---
 const currentChapter = computed(() => toc.value[currentChapterIndex.value]);
 const currentPageContent = computed(() => pages.value[currentPageInChapter.value - 1] || '');
+
+// 计算样式
+const fontSize = computed(() => props.fontSize || settingsStore.fontSize);
+const lineHeight = computed(() => props.lineHeight || settingsStore.lineHeight);
+const fontFamily = computed(() => props.fontFamily || settingsStore.fontFamily);
+const backgroundColor = computed(() => settingsStore.backgroundColor);
+const textColor = computed(() => settingsStore.textColor);
+const pageWidth = computed(() => props.pageWidth || settingsStore.pageWidth);
+
+const containerStyle = computed(() => ({
+  backgroundColor: backgroundColor.value,
+  maxWidth: `${pageWidth.value}px`,
+  margin: '0 auto',
+}));
+
+const contentStyle = computed(() => ({
+  fontSize: `${fontSize.value}px`,
+  lineHeight: lineHeight.value,
+  fontFamily: fontFamily.value,
+  color: textColor.value,
+}));
 
 // --- 全书进度计算 ---
 const totalChars = computed(() => textContent.value.length);
@@ -306,7 +334,12 @@ onBeforeUnmount(() => {
 });
 
 watch(() => props.bookData, initializeReader);
-watch(() => props.fontSize, rePaginate);
+
+// 监听设置变化，重新分页
+watch(() => [fontSize.value, lineHeight.value], () => {
+  console.log('TxtViewer: 字体设置变化，重新分页');
+  rePaginate();
+}, { deep: true });
 
 defineExpose({
   prev,

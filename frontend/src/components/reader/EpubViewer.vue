@@ -13,6 +13,11 @@ const props = defineProps({
   bookData: ArrayBuffer,
   bookId: Number,
   initialLocation: String,
+  fontSize: Number,
+  lineHeight: Number,
+  pageWidth: Number,
+  fontFamily: String,
+  readingMode: String,
 });
 const emit = defineEmits(['update:location', 'update:toc', 'update:page-calc-status', 'initialization-error']);
 
@@ -68,8 +73,8 @@ const initializeReader = async (width, height) => {
       : undefined;
     await rendition.display(validInitialLocation);
 
-    // 3. 使用云端设置初始化字体大小
-    updateFontSize(settingsStore.fontSize);
+    // 3. 应用所有阅读设置
+    applyAllSettings();
     
     // 4. 启动自动保存定时器
     startAutoSave();
@@ -225,7 +230,33 @@ const emitToc = () => {
 
 
 const updateFontSize = (size) => {
-  rendition?.themes.fontSize(`${size}px`);
+  if (rendition?.themes) {
+    rendition.themes.fontSize(`${size}px`);
+  }
+};
+
+const applyAllSettings = () => {
+  if (!rendition?.themes) return;
+  
+  // 应用字体大小
+  const fontSize = props.fontSize || settingsStore.fontSize;
+  rendition.themes.fontSize(`${fontSize}px`);
+  
+  // 应用行高
+  const lineHeight = props.lineHeight || settingsStore.lineHeight;
+  rendition.themes.override('line-height', lineHeight);
+  
+  // 应用字体
+  const fontFamily = props.fontFamily || settingsStore.fontFamily;
+  rendition.themes.override('font-family', fontFamily);
+  
+  // 应用阅读模式（背景色和文字色）
+  const bgColor = settingsStore.backgroundColor;
+  const textColor = settingsStore.textColor;
+  rendition.themes.override('color', textColor);
+  rendition.themes.override('background-color', bgColor);
+  
+  console.log('应用EPUB阅读设置:', { fontSize, lineHeight, fontFamily, bgColor, textColor });
 };
 
 // --- 同步功能 ---
@@ -329,17 +360,29 @@ watch(() => props.bookData, () => {
   // The resize observer will trigger re-initialization when the component is ready.
 });
 
-// 监听设置变化
-watch(() => settingsStore.fontSize, (newSize) => {
-  updateFontSize(newSize);
+// 监听设置变化，重新应用所有设置
+watch(() => settingsStore.fontSize, () => {
+  if (rendition) applyAllSettings();
 });
 
-// 监听主题变化
-watch(() => settingsStore.theme, (newTheme) => {
-  if (rendition) {
-    // 可以在这里添加主题切换逻辑
-    console.log('主题已切换为:', newTheme);
-  }
+watch(() => settingsStore.lineHeight, () => {
+  if (rendition) applyAllSettings();
+});
+
+watch(() => settingsStore.fontFamily, () => {
+  if (rendition) applyAllSettings();
+});
+
+watch(() => settingsStore.readingMode, () => {
+  if (rendition) applyAllSettings();
+});
+
+watch(() => settingsStore.backgroundColor, () => {
+  if (rendition) applyAllSettings();
+});
+
+watch(() => settingsStore.textColor, () => {
+  if (rendition) applyAllSettings();
 });
 
 // --- Exposed Methods ---

@@ -40,6 +40,16 @@ export const useSettingsStore = defineStore('settings', {
              (Date.now() - state.lastSyncTime) > 5 * 60 * 1000 // 5分钟
     },
 
+    // 直接访问常用设置项
+    fontSize: (state) => state.settings.fontSize,
+    theme: (state) => state.settings.theme,
+    readingMode: (state) => state.settings.readingMode,
+    lineHeight: (state) => state.settings.lineHeight,
+    pageWidth: (state) => state.settings.pageWidth,
+    fontFamily: (state) => state.settings.fontFamily,
+    backgroundColor: (state) => state.settings.backgroundColor,
+    textColor: (state) => state.settings.textColor,
+
     // 获取主题相关设置
     themeSettings: (state) => ({
       theme: state.settings.theme,

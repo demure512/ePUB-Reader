@@ -14,6 +14,10 @@
       :book-data="bookData"
       :book-id="book.id"
       :font-size="fontSize"
+      :line-height="lineHeight"
+      :page-width="pageWidth"
+      :font-family="fontFamily"
+      :reading-mode="readingMode"
       :initial-location="book.lastLocation"
       @update:location="onLocationUpdate"
       @update:toc="$emit('update:toc', $event)"
@@ -33,6 +37,10 @@ import TxtViewer from './TxtViewer.vue';
 
 const props = defineProps({
   fontSize: Number,
+  lineHeight: Number,
+  pageWidth: Number,
+  fontFamily: String,
+  readingMode: String,
 });
 
 const route = useRoute();
