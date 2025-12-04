@@ -5,7 +5,7 @@
       <span class="toggle-icon" :class="{ 'collapsed': isCollapsed }">‹</span>
     </button>
     
-    <div class="sidebar-content" v-show="!isCollapsed">
+    <el-scrollbar class="sidebar-content" v-show="!isCollapsed">
       <div class="sidebar-header">
         <h3>目录</h3>
       </div>
@@ -20,7 +20,7 @@
           @navigate="navigate"
         />
       </ul>
-    </div>
+    </el-scrollbar>
   </aside>
 </template>
 
@@ -121,6 +121,7 @@ watch(() => props.currentChapterHref, async () => {
 .sidebar-content {
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
   opacity: 1;
   transition: opacity 0.2s ease;
