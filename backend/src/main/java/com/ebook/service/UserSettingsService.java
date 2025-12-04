@@ -77,12 +77,26 @@ public class UserSettingsService {
      */
     public UserSettings resetUserSettings(String username) {
         Long userId = getUserIdByUsername(username);
+        Optional<UserSettings> existingSettings = userSettingsRepository.findByUserId(userId);
         
-        // 删除现有设置
-        userSettingsRepository.deleteByUserId(userId);
+        UserSettings settings;
+        if (existingSettings.isPresent()) {
+            // 更新现有设置为默认值
+            settings = existingSettings.get();
+        } else {
+            // 如果不存在则创建新的
+            settings = new UserSettings(userId);
+        }
         
-        // 创建默认设置
-        return createDefaultSettings(userId);
+        // 设置为默认值
+        settings.setFontSize(16);
+        settings.setTheme("light");
+        settings.setReadingMode("default");
+        settings.setLineHeight(new BigDecimal("1.5"));
+        settings.setPageWidth(800);
+        settings.setAutoSaveProgress(true);
+        
+        return userSettingsRepository.save(settings);
     }
     
     /**
