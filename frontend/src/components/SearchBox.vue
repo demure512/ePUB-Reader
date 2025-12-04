@@ -33,31 +33,22 @@ const handleSearch = async () => {
   // 更新store中的搜索状态
   bookStore.searchQuery = searchQuery.value
   
-  if (searchQuery.value.trim()) {
-    // 根据当前分类状态决定搜索范围
-    let category = null
-    if (currentCategory.value === 'uncategorized') {
-      category = 'uncategorized'
-    } else if (currentCategory.value && currentCategory.value !== '') {
-      category = currentCategory.value
-    }
-    // category为null时进行全局搜索
-    
-    await bookStore.searchBooks(searchQuery.value.trim(), category)
-    if (router.currentRoute.value.name !== 'Library') {
-      router.push('/library')
-    }
-  } else {
-    // 如果搜索框为空，根据当前分类状态恢复显示
-    if (currentCategory.value === 'uncategorized') {
-      bookStore.getUncategorizedBooks()
-    } else if (currentCategory.value && currentCategory.value !== '') {
-      await bookStore.fetchBooksByCategory(currentCategory.value)
-    } else {
-      await bookStore.fetchBooks()
-    }
+  // 根据当前分类状态决定搜索范围
+  let category = null
+  if (currentCategory.value === 'uncategorized') {
+    category = 'uncategorized'
+  } else if (currentCategory.value && currentCategory.value !== '') {
+    category = currentCategory.value
+  }
+  // category为null时进行全局搜索
+  
+  // 无论搜索框是否为空，都调用搜索接口
+  await bookStore.searchBooks(searchQuery.value.trim(), category)
+  if (router.currentRoute.value.name !== 'Library') {
+    router.push('/library')
   }
 }
+
 </script>
 
 <style scoped>
