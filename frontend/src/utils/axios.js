@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
+import { ElNotification } from 'element-plus'
 
 // 设置基础URL
 // axios.defaults.baseURL = 'http://localhost:3000'
@@ -34,11 +35,15 @@ const handleTokenExpired = async () => {
   await clearAuthData()
   
   // 显示提示信息
-  if (window.confirm) {
-    setTimeout(() => {
-      alert('登录已过期，请重新登录')
-    }, 100)
-  }
+  setTimeout(() => {
+    ElNotification({
+      title: '登录已过期',
+      message: '请重新登录以继续使用',
+      type: 'warning',
+      position: 'top-right',
+      duration: 4000
+    })
+  }, 100)
   
   // 跳转到登录页
   setTimeout(() => {

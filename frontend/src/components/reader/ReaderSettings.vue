@@ -130,7 +130,7 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
-import { ElMessageBox, ElMessage } from "element-plus";
+import { ElMessageBox, ElNotification } from "element-plus";
 import { useSettingsStore } from "@/stores/settings";
 
 const settingsStore = useSettingsStore();
@@ -244,9 +244,19 @@ const resetSettings = async () => {
       if (defaultMode) {
         applyReadingMode(defaultMode);
       }
-      ElMessage.success("设置已恢复为默认值");
+      ElNotification({
+        title: "恢复成功",
+        message: "设置已恢复为默认值",
+        type: "success",
+        position: "top-right"
+      });
     } else {
-      ElMessage.error("恢复默认设置失败: " + result.message);
+      ElNotification({
+        title: "恢复失败",
+        message: result.message,
+        type: "error",
+        position: "top-right"
+      });
     }
   } catch {
     // 用户点击了取消按钮，不需要处理
@@ -417,8 +427,8 @@ watch(
 }
 
 .mode-btn.active {
-  border-color: #3498db;
-  box-shadow: 0 0 0 1px #3498db;
+  border-color: transparent;
+  box-shadow: 0 0 0 1px #828282;
 }
 
 .mode-btn:hover {
@@ -438,13 +448,13 @@ watch(
 
 .setting-select:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: transparent;
 }
 
 .reset-btn {
   width: 100%;
   padding: 10px;
-  background: #e74c3c;
+  background: #000000;
   color: white;
   border: none;
   border-radius: 4px;
@@ -455,7 +465,7 @@ watch(
 }
 
 .reset-btn:hover {
-  background: #c0392b;
+  background: #414141;
 }
 
 /* 动画效果 */
@@ -468,24 +478,6 @@ watch(
 .slide-leave-to {
   opacity: 0;
   transform: translateY(20px);
-}
-
-/* 滚动条样式 */
-.settings-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.settings-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.settings-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 3px;
-}
-
-.settings-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
 
 /* 响应式设计 */

@@ -1,0 +1,426 @@
+/* Element Plus 组件样式覆盖 - 黑白极简主题 */
+
+/* ==================== MessageBox 确认对话框样式 ==================== */
+.el-message-box {
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+  padding: 0 !important;
+}
+
+/* MessageBox 头部 */
+.el-message-box__header {
+  background-color: #f8f8f8 !important;
+  padding: 10px 16px !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.el-message-box__title {
+  color: #505050 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+}
+
+.el-message-box__headerbtn {
+  top: 3px !important;
+  right: 12px !important;
+}
+
+.el-message-box__headerbtn .el-message-box__close {
+  color: #666666 !important;
+  font-size: 18px !important;
+}
+
+.el-message-box__headerbtn:hover .el-message-box__close {
+  color: #505050 !important;
+}
+
+/* MessageBox 内容区 */
+.el-message-box__content {
+  padding: 24px !important;
+  color: #666666 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+}
+
+.el-message-box__message {
+  color: #666666 !important;
+}
+
+.el-message-box__message p {
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+/* MessageBox 图标 */
+.el-message-box__status {
+  font-size: 20px !important;
+}
+
+/* Warning 图标 - 黑色 */
+.el-message-box__status.el-icon-warning {
+  color: #505050 !important;
+}
+
+/* Error 图标 - 深灰色 */
+.el-message-box__status.el-icon-error {
+  color: #555555 !important;
+}
+
+/* Info 图标 - 中灰色 */
+.el-message-box__status.el-icon-info {
+  color: #666666 !important;
+}
+
+/* Success 图标 - 黑色 */
+.el-message-box__status.el-icon-success {
+  color: #505050 !important;
+}
+
+/* MessageBox 底部按钮区 */
+.el-message-box__btns {
+  padding: 16px 24px 24px !important;
+  text-align: right !important;
+}
+
+/* MessageBox 按钮样式 */
+.el-message-box__btns .el-button {
+  min-width: 80px !important;
+  padding: 8px 20px !important;
+  font-size: 14px !important;
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+/* 取消按钮 - 白底黑字 */
+.el-message-box__btns .el-button {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  color: #505050 !important;
+}
+
+.el-message-box__btns .el-button:hover {
+  background-color: #f8f8f8 !important;
+  border-color: #999999 !important;
+  color: #505050 !important;
+}
+
+/* 确定按钮 - 黑底白字 */
+.el-message-box__btns .el-button--primary {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.el-message-box__btns .el-button--primary:hover {
+  background-color: #505050 !important;
+  border-color: #505050 !important;
+  color: #ffffff !important;
+}
+
+.el-message-box__btns .el-button--primary:active {
+  background-color: #000000 !important;
+}
+
+/* 删除确认按钮 灰色 */
+.el-message-box__btns .el-button--danger {
+  background-color: #505050 !important;
+  border-color: #505050 !important;
+  color: #ffffff !important;
+}
+
+.el-message-box__btns .el-button--danger:hover {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+/* 按钮点击时去除边框和轮廓 */
+.el-message-box__btns .el-button:focus,
+.el-message-box__btns .el-button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* MessageBox 输入框 */
+.el-message-box__input {
+  padding-top: 12px !important;
+}
+
+.el-message-box__input input {
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 4px !important;
+  padding: 10px 12px !important;
+  font-size: 14px !important;
+  color: #505050 !important;
+}
+
+.el-message-box__input input:focus {
+  border-color: #000000 !important;
+  outline: none !important;
+}
+
+.el-message-box__errormsg {
+  color: #666666 !important;
+  font-size: 12px !important;
+  margin-top: 6px !important;
+}
+
+/* MessageBox 遮罩层 */
+.el-overlay {
+  background-color: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* ==================== Notification 通知样式 ==================== */
+.el-notification {
+  background-color: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 6px !important;
+  padding: 16px 20px !important;
+  width: 330px !important;
+}
+
+/* Notification 标题 */
+.el-notification__title {
+  color: #505050 !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  margin-bottom: 6px !important;
+  line-height: 1.4 !important;
+}
+
+/* Notification 内容 */
+.el-notification__content {
+  color: #666666 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+}
+
+/* Notification 图标容器 */
+.el-notification__icon {
+  font-size: 22px !important;
+  margin-right: 12px !important;
+}
+
+/* Success 类型 - 黑色主题 */
+.el-notification.el-notification--success {
+  border-left: 4px solid #000000 !important;
+}
+
+.el-notification.el-notification--success .el-notification__icon {
+  color: #000000 !important;
+}
+
+/* Warning 类型 - 深灰色 */
+.el-notification.el-notification--warning {
+  border-left: 4px solid #666666 !important;
+}
+
+.el-notification.el-notification--warning .el-notification__icon {
+  color: #666666 !important;
+}
+
+/* Error 类型 - 深灰色 */
+.el-notification.el-notification--error {
+  border-left: 4px solid #555555 !important;
+}
+
+.el-notification.el-notification--error .el-notification__icon {
+  color: #555555 !important;
+}
+
+/* Info 类型 - 中灰色 */
+.el-notification.el-notification--info {
+  border-left: 4px solid #999999 !important;
+}
+
+.el-notification.el-notification--info .el-notification__icon {
+  color: #999999 !important;
+}
+
+/* Notification 关闭按钮 */
+.el-notification__closeBtn {
+  color: #999999 !important;
+  font-size: 16px !important;
+  top: 18px !important;
+  right: 18px !important;
+}
+
+.el-notification__closeBtn:hover {
+  color: #505050 !important;
+}
+
+/* Notification 动画优化 */
+.el-notification.right {
+  right: 16px !important;
+}
+
+.el-notification-fade-enter-active {
+  animation: el-notification-fade-in 0.3s ease-out !important;
+}
+
+.el-notification-fade-leave-active {
+  animation: el-notification-fade-out 0.3s ease-in !important;
+}
+
+@keyframes el-notification-fade-in {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes el-notification-fade-out {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+  /* MessageBox 移动端适配 */
+  .el-message-box {
+    width: 90% !important;
+    max-width: 400px !important;
+  }
+
+  .el-message-box__header {
+    padding: 10px 16px !important;
+  }
+
+  .el-message-box__content {
+    padding: 20px !important;
+  }
+
+  .el-message-box__btns {
+    padding: 12px 20px 20px !important;
+  }
+
+  .el-message-box__btns .el-button {
+    min-width: 70px !important;
+    padding: 7px 16px !important;
+    font-size: 13px !important;
+  }
+
+  /* Notification 移动端适配 */
+  .el-notification {
+    width: calc(100% - 32px) !important;
+    max-width: 330px !important;
+    right: 16px !important;
+  }
+
+  .el-notification__title {
+    font-size: 14px !important;
+  }
+
+  .el-notification__content {
+    font-size: 12px !important;
+  }
+
+  .el-notification__icon {
+    font-size: 20px !important;
+    margin-right: 10px !important;
+  }
+}
+
+/* ==================== 深色模式支持（可选） ==================== */
+@media (prefers-color-scheme: dark) {
+  /* 如果需要支持系统深色模式，可以在这里添加对应样式 */
+  /* 目前项目是黑白主题，暂时不需要 */
+}
+
+/* ==================== 打印样式 ==================== */
+@media print {
+  .el-message-box,
+  .el-notification,
+  .el-overlay {
+    display: none !important;
+  }
+}
+
+/* ==================== 全局滚动条样式（黑白主题） ==================== */
+
+/* Element Plus 滚动条组件样式 */
+.el-scrollbar__wrap {
+  overflow-x: hidden !important;
+}
+
+.el-scrollbar__view {
+  height: 100% !important;
+}
+
+/* Webkit 滚动条样式（统一黑白主题） */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f8f8;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #666666;
+}
+
+/* Firefox 滚动条样式 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cccccc #f8f8f8;
+}
+
+/* 细滚动条（用于侧边栏等窄区域） */
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+/* MessageBox 内容区滚动条 */
+.el-message-box__content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.el-message-box__content::-webkit-scrollbar-track {
+  background: #f8f8f8;
+}
+
+.el-message-box__content::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 3px;
+}
+
+.el-message-box__content::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
