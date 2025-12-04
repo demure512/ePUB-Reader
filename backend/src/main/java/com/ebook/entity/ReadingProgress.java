@@ -34,8 +34,14 @@ public class ReadingProgress {
     @Column(name = "scroll_position")
     private Integer scrollPosition = 0; // 滚动位置
 
+    @Column(name = "current_page")
+    private Integer currentPage = 0; // 当前页码
+
     @Column(name = "total_pages")
     private Integer totalPages = 0; // 总页数
+
+    @Column(name = "progress_percentage")
+    private Double progressPercentage = 0.0; // 进度百分比（与percentage可能重复，但保留以兼容数据库）
 
     @Column(name = "device_info", length = 100)
     private String deviceInfo; // 设备信息
@@ -142,5 +148,21 @@ public class ReadingProgress {
 
     public void setLastSyncTime(LocalDateTime lastSyncTime) {
         this.lastSyncTime = lastSyncTime;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Double getProgressPercentage() {
+        return progressPercentage;
+    }
+
+    public void setProgressPercentage(Double progressPercentage) {
+        this.progressPercentage = progressPercentage;
     }
 }

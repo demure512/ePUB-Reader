@@ -328,7 +328,7 @@ export const useBookStore = defineStore('book', {
       }
     },
 
-    async saveProgress(bookId, percentage, lastLocation, currentChapter = null, scrollPosition = null, totalPages = null) {
+    async saveProgress(bookId, percentage, lastLocation, currentChapter = null, scrollPosition = null, currentPage = null, totalPages = null) {
       try {
         const authStore = useAuthStore()
         const progressData = {
@@ -342,6 +342,9 @@ export const useBookStore = defineStore('book', {
         }
         if (scrollPosition !== null) {
           progressData.scrollPosition = scrollPosition
+        }
+        if (currentPage !== null) {
+          progressData.currentPage = currentPage
         }
         if (totalPages !== null) {
           progressData.totalPages = totalPages
@@ -507,6 +510,7 @@ export const useBookStore = defineStore('book', {
           progressData.lastLocation,
           progressData.currentChapter,
           progressData.scrollPosition,
+          progressData.currentPage,
           progressData.totalPages
         )
       } catch (error) {

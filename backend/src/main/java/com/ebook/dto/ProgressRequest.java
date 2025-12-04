@@ -13,6 +13,8 @@ public class ProgressRequest {
     
     private Integer scrollPosition;
     
+    private Integer currentPage;
+    
     private Integer totalPages;
 
     public Double getPercentage() {
@@ -45,6 +47,14 @@ public class ProgressRequest {
     
     public void setScrollPosition(Integer scrollPosition) {
         this.scrollPosition = scrollPosition;
+    }
+    
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+    
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
     }
     
     public Integer getTotalPages() {

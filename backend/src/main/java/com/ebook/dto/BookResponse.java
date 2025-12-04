@@ -18,6 +18,11 @@ public class BookResponse {
     private LocalDateTime updatedAt;
     private double percentage;
     private String lastLocation;
+    private String currentChapter;
+    private Integer scrollPosition;
+    private Integer currentPage;
+    private Integer totalPages;
+    private Double progressPercentage;
     
     public BookResponse() {}
     
@@ -41,9 +46,19 @@ public class BookResponse {
             this.percentage = progress.getPercentage();
             // 确保 lastLocation 为 null 时不会传递字符串 "null"
             this.lastLocation = progress.getLastLocation();
+            this.currentChapter = progress.getCurrentChapter();
+            this.scrollPosition = progress.getScrollPosition();
+            this.currentPage = progress.getCurrentPage();
+            this.totalPages = progress.getTotalPages();
+            this.progressPercentage = progress.getProgressPercentage();
         } else {
             this.percentage = 0;
             this.lastLocation = null;
+            this.currentChapter = null;
+            this.scrollPosition = 0;
+            this.currentPage = 0;
+            this.totalPages = 0;
+            this.progressPercentage = 0.0;
         }
     }
 
@@ -86,4 +101,19 @@ public class BookResponse {
 
     public String getLastLocation() { return lastLocation; }
     public void setLastLocation(String lastLocation) { this.lastLocation = lastLocation; }
+
+    public String getCurrentChapter() { return currentChapter; }
+    public void setCurrentChapter(String currentChapter) { this.currentChapter = currentChapter; }
+
+    public Integer getScrollPosition() { return scrollPosition; }
+    public void setScrollPosition(Integer scrollPosition) { this.scrollPosition = scrollPosition; }
+
+    public Integer getCurrentPage() { return currentPage; }
+    public void setCurrentPage(Integer currentPage) { this.currentPage = currentPage; }
+
+    public Integer getTotalPages() { return totalPages; }
+    public void setTotalPages(Integer totalPages) { this.totalPages = totalPages; }
+
+    public Double getProgressPercentage() { return progressPercentage; }
+    public void setProgressPercentage(Double progressPercentage) { this.progressPercentage = progressPercentage; }
 }

@@ -259,6 +259,7 @@ public class BookController {
                 progressRequest.getLastLocation(),
                 progressRequest.getCurrentChapter(),
                 progressRequest.getScrollPosition(),
+                progressRequest.getCurrentPage(),
                 progressRequest.getTotalPages(),
                 deviceInfo
             );

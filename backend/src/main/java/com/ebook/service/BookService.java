@@ -304,14 +304,14 @@ public class BookService {
         throw new RuntimeException("书籍不存在或无权限");
     }
     public void saveReadingProgress(Long bookId, String username, double percentage, String lastLocation) {
-        saveReadingProgress(bookId, username, percentage, lastLocation, null, null, null, null);
+        saveReadingProgress(bookId, username, percentage, lastLocation, null, null, null, null, null);
     }
     
     /**
      * 保存阅读进度（支持多设备同步）
      */
     public void saveReadingProgress(Long bookId, String username, double percentage, String lastLocation,
-                                  String currentChapter, Integer scrollPosition, Integer totalPages, String deviceInfo) {
+                                  String currentChapter, Integer scrollPosition, Integer currentPage, Integer totalPages, String deviceInfo) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("用户不存在: " + username));
         
@@ -337,15 +337,24 @@ public class BookService {
         if (scrollPosition != null) {
             progress.setScrollPosition(scrollPosition);
         }
+        if (currentPage != null) {
+            progress.setCurrentPage(currentPage);
+        }
         if (totalPages != null) {
             progress.setTotalPages(totalPages);
         }
         if (deviceInfo != null) {
             progress.setDeviceInfo(deviceInfo);
         }
+        
+        // 计算并保存 progress_percentage（百分比形式）
+        if (percentage >= 0) {
+            progress.setProgressPercentage(percentage);
+        }
 
         readingProgressRepository.save(progress);
-        logger.info("用户 {} 的书籍 {} 阅读进度已保存: {}% (设备: {})", username, bookId, percentage, deviceInfo);
+        logger.info("用户 {} 的书籍 {} 阅读进度已保存: {}% (页码: {}/{}, 设备: {})", 
+                   username, bookId, percentage, currentPage, totalPages, deviceInfo);
     }
     
     /**
