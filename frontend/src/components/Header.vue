@@ -7,6 +7,10 @@
           <nav class="nav">
             <router-link to="/library" class="nav-link">书库</router-link>
             <router-link to="/upload" class="nav-link">上传</router-link>
+            <router-link v-if="authStore.isAdmin" to="/admin" class="nav-link admin-link">
+              <span class="admin-icon">⚙</span>
+              管理后台
+            </router-link>
           </nav>
         </div>
         
@@ -97,6 +101,26 @@ const handleExitGuest = () => {
 .nav-link:hover,
 .nav-link.router-link-active {
   color: var(--primary-color);
+}
+
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.15), rgba(167, 139, 250, 0.15));
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  transition: all 0.2s ease;
+}
+
+.admin-link:hover {
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.25), rgba(167, 139, 250, 0.25));
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+.admin-icon {
+  font-size: 14px;
 }
 
 /* 游客模式样式 */

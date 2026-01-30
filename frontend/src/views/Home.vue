@@ -56,7 +56,9 @@ const books = computed(() => bookStore.books)
 const categories = computed(() => bookStore.categories)
 const recentBooks = computed(() => books.value.slice(0, 6))
 const readingProgress = computed(() => {
-  return books.value.filter(book => book.progress > 0).length
+  console.log(books.value);
+  
+  return books.value.filter(book => book.percentage > 0).length
 })
 
 const formatFileSize = (size) => {

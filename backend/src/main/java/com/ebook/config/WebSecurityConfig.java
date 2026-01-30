@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/debug/**").permitAll()
+                .antMatchers("/api/admin/check-super-admin").permitAll()
                 .antMatchers("/uploads/**").permitAll()
                 .anyRequest().authenticated();
         

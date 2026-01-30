@@ -8,6 +8,8 @@ export const useAuthStore = defineStore('auth', {
     token: localStorage.getItem('token') || null,
     isAuthenticated: !!localStorage.getItem('token'),
     isGuest: false,
+    isAdmin: false,
+    isSuperAdmin: false,
     mode: 'login', // 'login' | 'guest'
     storageAdapter: null
   }),
@@ -19,6 +21,27 @@ export const useAuthStore = defineStore('auth', {
         return '游客用户'
       }
       return state.user?.username || '未知用户'
+    },
+
+    // 检查是否为管理员 (包括超级管理员)
+    checkIsAdmin: (state) => {
+      return state.user?.role === 'ROLE_ADMIN' || state.user?.role === 'ROLE_SUPER_ADMIN'
+    },
+    
+    // 检查是否为超级管理员
+    checkIsSuperAdmin: (state) => {
+      return state.user?.role === 'ROLE_SUPER_ADMIN'
+    },
+    
+    // 获取用户角色显示名称
+    userRoleDisplayName: (state) => {
+      const roleMap = {
+        'ROLE_SUPER_ADMIN': '超级管理员',
+        'ROLE_ADMIN': '管理员',
+        'ROLE_USER': '普通用户',
+        'ROLE_GUEST': '游客'
+      }
+      return roleMap[state.user?.role] || '未知角色'
     },
     
     // 获取用户头像URL
@@ -44,15 +67,18 @@ export const useAuthStore = defineStore('auth', {
     async login(credentials) {
       try {
         const response = await axios.post('/api/auth/signin', credentials)
-        const { token, id, username, email } = response.data
+        const { token, id, username, email, role } = response.data
         
         this.token = token
-        this.user = { id, username, email }
+        this.user = { id, username, email, role }
         this.isAuthenticated = true
         this.isGuest = false
+        this.isSuperAdmin = role === 'ROLE_SUPER_ADMIN'
+        this.isAdmin = role === 'ROLE_ADMIN' || role === 'ROLE_SUPER_ADMIN'
         this.mode = 'login'
         
         localStorage.setItem('token', token)
+        localStorage.setItem('user', JSON.stringify(this.user))
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         
         // 初始化云端存储适配器
@@ -128,9 +154,12 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
       this.isAuthenticated = false
       this.isGuest = false
+      this.isAdmin = false
+      this.isSuperAdmin = false
       this.mode = 'login'
       
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
       localStorage.removeItem('guestMode')
       delete axios.defaults.headers.common['Authorization']
       
@@ -177,6 +206,7 @@ export const useAuthStore = defineStore('auth', {
     async initializeAuth() {
       const token = localStorage.getItem('token')
       const guestMode = localStorage.getItem('guestMode')
+      const userStr = localStorage.getItem('user')
       
       console.log('初始化认证状态:', { token: !!token, guestMode });
       
@@ -185,6 +215,17 @@ export const useAuthStore = defineStore('auth', {
         this.isAuthenticated = true
         this.isGuest = false
         this.mode = 'login'
+        
+        if (userStr) {
+          try {
+            this.user = JSON.parse(userStr)
+            this.isSuperAdmin = this.user.role === 'ROLE_SUPER_ADMIN'
+            this.isAdmin = this.user.role === 'ROLE_ADMIN' || this.user.role === 'ROLE_SUPER_ADMIN'
+          } catch (e) {
+            console.error('Failed to parse user from localStorage')
+          }
+        }
+        
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         console.log('认证状态设置为true');
         

@@ -59,4 +59,33 @@ public interface ReadingProgressRepository extends JpaRepository<ReadingProgress
     @Query("SELECT rp FROM ReadingProgress rp WHERE rp.user = :user " +
            "ORDER BY CASE WHEN rp.lastSyncTime IS NOT NULL THEN rp.lastSyncTime ELSE rp.updatedAt END DESC")
     List<ReadingProgress> findRecentReadingByUser(@Param("user") User user);
+    
+    /**
+     * Get all reading progress records ordered by update time
+     */
+    List<ReadingProgress> findAllByOrderByUpdatedAtDesc();
+    
+    /**
+     * Get reading progress updated within a date range
+     */
+    @Query("SELECT rp FROM ReadingProgress rp WHERE rp.updatedAt >= :startDate AND rp.updatedAt <= :endDate")
+    List<ReadingProgress> findByUpdatedAtBetween(@Param("startDate") java.time.LocalDateTime startDate, 
+                                                  @Param("endDate") java.time.LocalDateTime endDate);
+    
+    /**
+     * Get aggregated reading progress by month for the past year
+     * Returns month and sum of progress percentages
+     */
+    @Query(value = "SELECT DATE_FORMAT(updated_at, '%Y-%m') as month, SUM(ROUND(percentage)) as totalProgress " +
+                   "FROM reading_progress " +
+                   "WHERE updated_at >= DATE_SUB(CURRENT_DATE, INTERVAL 12 MONTH) " +
+                   "GROUP BY DATE_FORMAT(updated_at, '%Y-%m') " +
+                   "ORDER BY month ASC", nativeQuery = true)
+    List<Object[]> getMonthlyReadingProgress();
+    
+    /**
+     * Get reading progress for a specific book
+     */
+    @Query("SELECT rp FROM ReadingProgress rp WHERE rp.book.id = :bookId")
+    List<ReadingProgress> findByBookId(@Param("bookId") Long bookId);
 }

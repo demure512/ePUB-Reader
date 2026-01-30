@@ -33,4 +33,22 @@ public interface BookRepository extends JpaRepository<Book, Long> {
            "(LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
            "LOWER(b.author) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     List<Book> searchUncategorizedBooks(@Param("user") User user, @Param("keyword") String keyword);
+    
+    /**
+     * Get all books ordered by creation date (for admin view)
+     */
+    @Query("SELECT b FROM Book b ORDER BY b.createdAt DESC")
+    List<Book> findAllOrderByCreatedAtDesc();
+    
+    /**
+     * Get all books with pagination (for admin view)
+     */
+    @Query("SELECT b FROM Book b ORDER BY b.createdAt DESC")
+    org.springframework.data.domain.Page<Book> findAllBooks(org.springframework.data.domain.Pageable pageable);
+    
+    /**
+     * Count all books
+     */
+    @Query("SELECT COUNT(b) FROM Book b")
+    Long countAllBooks();
 }

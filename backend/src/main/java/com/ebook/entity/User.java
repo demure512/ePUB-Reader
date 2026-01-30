@@ -31,6 +31,9 @@ public class User {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    private String role = "ROLE_USER";
     
     @PrePersist
     protected void onCreate() {
@@ -50,6 +53,9 @@ public class User {
         this.password = password;
         this.email = (email != null && !email.trim().isEmpty()) ? email.trim() : null;
     }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -14,6 +14,12 @@ public class DatabaseInitializer implements CommandLineRunner {
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private com.ebook.repository.UserRepository userRepository;
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
     
     @Override
     public void run(String... args) throws Exception {
@@ -28,6 +34,9 @@ public class DatabaseInitializer implements CommandLineRunner {
             
             // 清理重复的阅读进度记录
             cleanupDuplicateProgress();
+
+            // 检查并创建管理员账户
+            checkAndCreateAdmin();
             
             logger.info("✅ 数据库表结构检查完成，多设备同步功能已就绪！");
             
@@ -127,6 +136,22 @@ public class DatabaseInitializer implements CommandLineRunner {
         } catch (Exception e) {
             logger.warn("⚠️ 清理重复阅读进度记录时出错: {}", e.getMessage());
             logger.info("💡 提示：如果问题持续存在，可以手动执行 cleanup-duplicate-progress.sql 脚本");
+        }
+    }
+
+    private void checkAndCreateAdmin() {
+        try {
+            if (!userRepository.existsByUsername("admin")) {
+                logger.info("🔍 管理员账户不存在，正在创建...");
+                com.ebook.entity.User admin = new com.ebook.entity.User("admin", passwordEncoder.encode("admin123"), "admin@ebook.com");
+                admin.setRole("ROLE_ADMIN");
+                userRepository.save(admin);
+                logger.info("✅ 管理员账户创建成功: admin / admin123");
+            } else {
+                logger.info("✅ 管理员账户已存在");
+            }
+        } catch (Exception e) {
+            logger.error("❌ 创建管理员账户失败: {}", e.getMessage());
         }
     }
 }

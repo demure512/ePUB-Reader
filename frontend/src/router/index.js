@@ -10,6 +10,12 @@ import Reader from '@/views/Reader.vue'
 import Upload from '@/views/Upload.vue'
 import Debug from '@/views/Debug.vue'
 
+// Admin Components
+import AdminIndex from '@/views/admin/index.vue'
+import AdminDashboard from '@/views/admin/Dashboard.vue'
+import AdminUsers from '@/views/admin/AllUsers.vue'
+import AdminRoles from '@/views/admin/RolesControl.vue'
+
 const routes = [
   {
     path: '/',
@@ -51,6 +57,31 @@ const routes = [
     path: '/debug',
     name: 'Debug',
     component: Debug
+  },
+  {
+    path: '/admin',
+    component: AdminIndex,
+    meta: { requiresAuth: true, requiresAdmin: true },
+    children: [
+      {
+        path: '',
+        name: 'AdminDashboard',
+        component: AdminDashboard,
+        meta: { requiresAuth: true, requiresAdmin: true }
+      },
+      {
+        path: 'users',
+        name: 'AdminUsers',
+        component: AdminUsers,
+        meta: { requiresAuth: true, requiresAdmin: true, requiresSuperAdmin: true }
+      },
+      {
+        path: 'roles',
+        name: 'AdminRoles',
+        component: AdminRoles,
+        meta: { requiresAuth: true, requiresAdmin: true }
+      }
+    ]
   }
 ]
 
@@ -68,6 +99,20 @@ router.beforeEach(async (to, from, next) => {
     if (!authStore.isAuthenticated && !authStore.isGuest) {
       console.log('用户未认证且非游客模式，跳转到登录页')
       next('/login')
+      return
+    }
+
+    // 检查是否需要管理员权限
+    if (to.meta.requiresAdmin && !authStore.isAdmin) {
+      console.log('用户无管理员权限，跳转到首页')
+      next('/')
+      return
+    }
+    
+    // 检查是否需要超级管理员权限
+    if (to.meta.requiresSuperAdmin && !authStore.isSuperAdmin) {
+      console.log('用户无超级管理员权限，跳转到管理后台首页')
+      next('/admin')
       return
     }
     

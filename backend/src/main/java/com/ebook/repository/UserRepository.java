@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,4 +18,19 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(@Param("email") String email);
     
     Optional<User> findByEmail(String email);
+    
+    /**
+     * Count users by role
+     */
+    Long countByRole(String role);
+    
+    /**
+     * Find all users ordered by creation date
+     */
+    List<User> findAllByOrderByCreatedAtDesc();
+    
+    /**
+     * Find users by role
+     */
+    List<User> findByRoleOrderByCreatedAtDesc(String role);
 }

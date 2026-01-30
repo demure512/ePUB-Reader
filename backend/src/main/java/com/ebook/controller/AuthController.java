@@ -49,7 +49,7 @@ public class AuthController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userRepository.findByUsername(userDetails.getUsername()).orElse(null);
         
-        return ResponseEntity.ok(new JwtResponse(jwt, user.getId(), user.getUsername(), user.getEmail()));
+        return ResponseEntity.ok(new JwtResponse(jwt, user.getId(), user.getUsername(), user.getEmail(), user.getRole()));
     }
     
     @PostMapping("/signup")
@@ -85,6 +85,7 @@ public class AuthController {
                     encoder.encode(signUpRequest.getPassword()),
                     signUpRequest.getEmail() != null ? signUpRequest.getEmail().trim() : null);
             
+            user.setRole("ROLE_USER");
             userRepository.save(user);
             
             response.put("message", "注册成功");
